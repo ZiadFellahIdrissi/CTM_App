@@ -55,7 +55,6 @@ def results(list_ctm,list_entreprise):
 f= open("ctm.txt","r")
 f2 = open("tout les entreprises.txt","r")
 
-
 root = Tk()
 root.title('CTM')
 root.iconbitmap('./ctm.ico')
