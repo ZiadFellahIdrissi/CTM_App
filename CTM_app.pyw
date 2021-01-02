@@ -1,5 +1,4 @@
-import os, psutil
-# from tkinter import *
+# import os, psutil
 from tkinter import ttk,Tk,Text,Frame,Label,Canvas,Pack
 
 def set_ctm_list(f,index):
@@ -95,6 +94,6 @@ root.resizable(False,True)
 root.mainloop()
 
 # results(set_ctm_list(f,4),set_ctm_list(f2,0))
-print("\n==================")
-process = psutil.Process(os.getpid())
-print(process.memory_info().rss/1000000,"Megabyte")
+# print("\n==================")
+# process = psutil.Process(os.getpid())
+# print(process.memory_info().rss/1000000,"Megabyte")
