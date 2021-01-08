@@ -148,6 +148,18 @@ def italics_it():
 		my_text.tag_remove("italic", "sel.first", "sel.last")
 	else:
 		my_text.tag_add("italic", "sel.first", "sel.last")
+
+def dark_mode():
+	my_text.config(bg="#0d1117")
+	my_text.config(fg="#ede6e6")
+	root.config(bg="#0d1117")
+	status_bar.config(bg="#0d1117", fg="#ede6e6")
+
+def light_mode():
+	my_text.config(bg="white")
+	my_text.config(fg="black")
+	status_bar.config(bg="white", fg="black")
+
 # =================================================================================================================//
 
 
@@ -164,34 +176,19 @@ root.geometry("1100x550")
 main_frame = Frame(root)
 main_frame.pack(fill="both", expand=1)
 
-# Create A Canvas
-my_canvas = Canvas(main_frame)
-my_canvas.pack(side="left", fill="both", expand=1)
-
 # Add A Scrollbar To The Canvas
-my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
+my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical")
 my_scrollbar.pack(side="right", fill="y")
 
-# Configure The Canvas
-my_canvas.configure(yscrollcommand=my_scrollbar.set)
-my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all")))
-
-# usig the mouse for scrolling
-my_canvas.bind_all("<MouseWheel>", lambda event: my_canvas.yview_scroll(-1 * int((event.delta / 120)), "units"))
-
-# Create ANOTHER Frame INSIDE the Canvas
-second_frame = Frame(my_canvas)
-
-# Add that New frame To a Window In The Canvas
-my_canvas.create_window((0,0), window=second_frame, anchor="nw")
 
 results =results(set_ctm_list(f,4),set_ctm_list(f2,0))
 # Label(second_frame,text=results, justify="left",font="Helvetica 13" ).pack(pady=10, padx=50)
 # Label(second_frame,text="Veuillez fermer l'application après avoir consulté les résultats", justify="left",font="Helvetica 13").pack(pady=20, padx=0)
 
-my_text = Text(second_frame, width=100, height=25, font=("Helvetica", 14), selectbackground="yellow", 
+my_text = Text(main_frame, width=100, height=24, font=("Helvetica", 14), selectbackground="yellow", 
                selectforeground="black", undo=True, yscrollcommand=my_scrollbar.set, wrap="none")
-my_text.pack()
+my_text.pack()	
+my_scrollbar.config(command=my_text.yview)
 my_text.insert('end', results)
 
 # Create menu
@@ -219,13 +216,17 @@ options_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Options", menu=options_menu)
 options_menu.add_command(label="Texte en gras",command=bold_it)
 options_menu.add_command(label="Texte en italique",command=italics_it )
+file_menu.add_separator()
+options_menu.add_command(label="Dark Mode",command=dark_mode)
+options_menu.add_command(label="Ligh Mode",command=light_mode)
+
 
 
 # Add Status Bar To Bottom Of App
 status_bar = Label(root, text='Ready        ', anchor='e')
-status_bar.pack(fill='x', side='bottom', ipady=5)
+status_bar.pack(fill='x', side='bottom', ipady=20)
 
-root.resizable(False,True)  
+root.resizable(False,False)  
 root.mainloop()
 
 # results(set_ctm_list(f,4),set_ctm_list(f2,0))
