@@ -52,7 +52,32 @@ def results(list_ctm,list_entreprise):
    
     return results
     
+
 # ===================================================GUI function==================================================//
+def open_file():
+	# Delete previous text
+	my_text.configure(state='normal') 
+	my_text.delete("1.0", 'end')
+
+	# Grab Filename
+	text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ))
+
+	# Update Status bars
+	name = text_file
+	status_bar.config(text=f'{name}        ')
+	name = name.replace("C:/", "")
+	root.title(f'{name} - TextPad!')
+
+	f2 = open("tout les entreprises.txt","r")
+	text_file = open(text_file,"r")
+
+	stuff = results(set_ctm_list(text_file,4),set_ctm_list(f2,0))
+	# stuff = text_file.read()
+	my_text.insert('end', stuff)
+	my_text.configure(state='disabled') 
+	text_file.close()
+	f2.close()
+
 
 def print_file():
 	q=my_text.get(1.0,"end")
@@ -162,11 +187,7 @@ def light_mode():
 
 # =================================================================================================================//
 
-
 # Main
-f= open("ctm.txt","r")
-f2 = open("tout les entreprises.txt","r")
-
 root = Tk()
 root.title('CTM')
 root.iconbitmap('./ctm.ico')
@@ -176,22 +197,17 @@ root.geometry("1100x550")
 main_frame = Frame(root)
 main_frame.pack(fill="both", expand=1)
 
-# Add A Scrollbar To The Canvas
+# Add A Scrollbar 
 my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical")
 my_scrollbar.pack(side="right", fill="y")
 
-
-results =results(set_ctm_list(f,4),set_ctm_list(f2,0))
-# Label(second_frame,text=results, justify="left",font="Helvetica 13" ).pack(pady=10, padx=50)
-# Label(second_frame,text="Veuillez fermer l'application après avoir consulté les résultats", justify="left",font="Helvetica 13").pack(pady=20, padx=0)
 
 my_text = Text(main_frame, width=100, height=24, font=("Helvetica", 14), selectbackground="yellow", 
                selectforeground="black", undo=True, yscrollcommand=my_scrollbar.set, wrap="none")
 
 my_text.pack()	
 my_scrollbar.config(command=my_text.yview)
-my_text.insert('end', results)
-my_text.configure(state='disabled') 
+
 
 # Create menu
 my_menu = Menu(root)
@@ -200,6 +216,7 @@ root.config(menu=my_menu)
 # Add file Menu
 file_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label='Fichier' , menu=file_menu)
+file_menu.add_command(label="Ouvrir", command=open_file)
 file_menu.add_command(label="Enregistrer sous ...", command=save_as_file)
 file_menu.add_separator()
 file_menu.add_command(label="Imprimer ...", command = print_file )
@@ -221,7 +238,6 @@ options_menu.add_command(label="Texte en italique",command=italics_it )
 file_menu.add_separator()
 options_menu.add_command(label="Dark Mode",command=dark_mode)
 options_menu.add_command(label="Ligh Mode",command=light_mode)
-
 
 
 # Add Status Bar To Bottom Of App
