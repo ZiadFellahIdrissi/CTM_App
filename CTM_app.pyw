@@ -1,7 +1,7 @@
 # import os, psutil
 from tkinter import ttk,Tk,Text,Frame,Label,Canvas,Pack,Menu,filedialog,colorchooser,font,Button
 import os, sys
-import tempfile
+import tempfile,win32api,win32print
 
 def set_ctm_list(f,index):
     list_ctm=[]
@@ -53,11 +53,14 @@ def results(list_ctm,list_entreprise):
     return results
     
 # ===================================================GUI function==================================================//
+
 def print_file():
-    q=my_text.get(1.0,"end")
-    file_name0=tempfile.mktemp(".txt")
-    open (file_name0 , "w").write(q)
-    os.startfile(file_name0,"print")
+	q=my_text.get(1.0,"end")
+	file_name0=tempfile.mktemp(".txt")
+	open (file_name0 , "w").write(q)
+	os.startfile(file_name0,"print")
+	win32api.ShellExecute(0,"printto",file_name0,'"%s"' % win32print.GetDefaultPrinter(),".",0)
+
 
 # Save As File
 def save_as_file():
