@@ -32,7 +32,7 @@ def results(list_ctm,list_entreprise):
     j=0
     results=""
     # results+="| Fichie de base                   Fichie de system      |           Résultats        |\n"
-    results+="|======================= ++++ ======================|============================|\n"
+    results+="|======================= ++++ ========================|============================|\n"
     for ele in list_ctm:
         code_entreprise=chercheEntreprise(list_entreprise,ele[0])
         if code_entreprise:
@@ -187,9 +187,11 @@ results =results(set_ctm_list(f,4),set_ctm_list(f2,0))
 
 my_text = Text(main_frame, width=100, height=24, font=("Helvetica", 14), selectbackground="yellow", 
                selectforeground="black", undo=True, yscrollcommand=my_scrollbar.set, wrap="none")
+
 my_text.pack()	
 my_scrollbar.config(command=my_text.yview)
 my_text.insert('end', results)
+my_text.configure(state='disabled') 
 
 # Create menu
 my_menu = Menu(root)
