@@ -24,3 +24,5 @@ SOTHEMA PHARMA                     007780000541200000006953
 BDM PHARMA                         013780010770012440012248
 IBERMA                             007780000028900000307854
 MEDICALEX                          011780000065210000076769 
+
+pip install pypiwin32
